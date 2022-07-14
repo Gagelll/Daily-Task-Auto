@@ -1,7 +1,7 @@
 # pip install pywin32  #if you not installed yet
 import win32com.client
 import datetime
-import os
+from Functions import delete_yesterdays_data, deputy_delete
 
 # set up connection to outlook
 outlook = win32com.client.Dispatch("Outlook.Application").GetNamespace("MAPI")
@@ -85,18 +85,6 @@ try:
 except AttributeError:
     print("Email doesn't exist")
 
-def delete_yesterdays_data(hotel_code, data):
-    path = 'V:\\Data & Analytics\\Scheduling\\' + hotel_code + ' ' + 'Files\\' + data
-    dir = os.listdir(path)
-    for file in dir:
-        lastmodified = os.stat(path + "\\" + file).st_mtime
-        date_modified = str(datetime.date.fromtimestamp(lastmodified))
-        if date_modified != today_date:
-            os.remove(path + "\\" + file)
-            print('file deleted')
-        else:
-            print('No files to delete')
-
 delete_yesterdays_data('GLWGC', 'Actuals')
 
 delete_yesterdays_data('GLWGC', 'Forecast')
@@ -108,16 +96,5 @@ delete_yesterdays_data('GLWTH', 'Forecast')
 delete_yesterdays_data('EDIAP', 'Actuals')
 
 delete_yesterdays_data('EDIAP', 'Forecast')
-
-def deputy_delete(path):
-    dir = os.listdir(path)
-    for file in dir:
-        lastmodified = os.stat(path + "\\" + file).st_mtime
-        date_modified = str(datetime.date.fromtimestamp(lastmodified))
-        if date_modified != today_date:
-            os.remove(path + "\\" + file)
-            print('file deleted')
-        else:
-            print('No files to delete')
 
 deputy_delete('V:\Data & Analytics\HR Folder\Deputy\Output')
